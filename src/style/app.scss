@@ -1,0 +1,90 @@
+body {
+    background-color: #5fd6d6;
+    font-family: "Roboto",Arial,sans-serif!important;
+    color: #333;
+}
+
+%section-style {
+    background-color: #a1e6e6;
+    font-weight: 300;
+    font-size: 20px;
+}
+
+%flex-board {
+    display: flex;
+    align-items: stretch;
+    flex-wrap: nowrap;
+    justify-items: center;
+}
+
+%container-box-model {
+    padding: 30px;
+    margin: 20px;
+}
+
+header {
+    background-color: #f1f029;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    margin: 0;
+    font-weight: 700;
+    font-size: 20px;
+    word-break: break-word;
+    padding-left: 20px;
+}
+
+.board {
+    @extend %section-style;
+    @extend %flex-board;
+    padding: 30px;
+    margin: 20px;
+}
+
+.buttonContainer,
+.details-container {
+    @extend %section-style;
+    @extend %flex-board;
+}
+
+.item {
+    flex-grow: 1;
+    text-align: center;
+}
+
+
+.section {
+    @extend %section-style;
+    @extend %container-box-model;
+}
+
+.board .item {
+    border: 2px solid;
+}
+
+button {
+    background-color: #d26c22;
+    border-radius: 10px;
+    padding: 10px;
+    border: none;
+    font-weight: 600;
+}
+
+.buttonContainer button {
+    width: 80%;
+}
+
+.section > button {
+    margin-left: 20px;
+    width: 20%;
+}
+
+.section input {
+    width: 70%;
+    height: 20px;
+    border-radius: 10px;
+    border: none;
+    padding: 10px;
+}
