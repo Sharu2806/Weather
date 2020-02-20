@@ -37,13 +37,6 @@ header {
     width: 70%;
 }
 
-.board {
-    @extend %section-style;
-    @extend %flex-board;
-    padding: 30px;
-    margin: 20px;
-}
-
 .buttonContainer,
 .details-container {
     @extend %section-style;
@@ -55,14 +48,9 @@ header {
     text-align: center;
 }
 
-
 .section {
     @extend %section-style;
     @extend %container-box-model;
-}
-
-.board .item {
-    border: 2px solid;
 }
 
 button {
