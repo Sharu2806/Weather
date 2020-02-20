@@ -2,7 +2,10 @@ import React from 'react';
 
 const Header = (props) => {
     return (
-        <header><p>Weather for next 5 days in {props.cityName}</p></header>
+        <div className="section">
+            <input type="text" id="searchCity" value={props.cityName} onChange={props.onChange} />
+            <button onClick={props.fetchWeather}>Search</button>
+        </div>
     );
 };
 

@@ -3,7 +3,7 @@ body {
     font-family: "Roboto",Arial,sans-serif!important;
     color: #333;
 }
-
+$text-font: 14px;
 %section-style {
     background-color: #a1e6e6;
     font-weight: 300;
@@ -34,6 +34,7 @@ header {
     font-size: 20px;
     word-break: break-word;
     padding-left: 20px;
+    width: 70%;
 }
 
 .board {
@@ -87,4 +88,19 @@ button {
     border-radius: 10px;
     border: none;
     padding: 10px;
+}
+
+.flex-box {
+    @extend %flex-board;
+    font-size: $text-font;
+    border-bottom: 1px solid;
+}
+
+.details {
+    border: 1px solid;
+    margin-top: 15px;
+}
+
+.section-head {
+    @extend %flex-board;
 }

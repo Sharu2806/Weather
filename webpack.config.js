@@ -9,7 +9,8 @@ module.exports = {
         contentBase: path.join(__dirname, '/'),
         compress: true,
         port: 4001,
-        stats: 'minimal'
+        stats: 'minimal',
+        historyApiFallback: true,
     },
     devtool: 'inline-source-map',
     output: {

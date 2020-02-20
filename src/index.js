@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import 'react-bootstrap';
-import Home from './Containers/Home';
-import './style/app.scss';
+import RouterCompoenent from './Router';
+import './Style/app.scss';
 
 ReactDOM.render(
-    <Home />,
+    <RouterCompoenent />,
     document.getElementById("root")
 );

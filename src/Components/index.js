@@ -1,9 +1,9 @@
 import Header from './Header';
 import WeatherReport from './WeatherReport';
-import GetMeanMode from './GetMeanMode';
+import NewLayout from './NewLayout';
 
 export {
     Header,
     WeatherReport,
-    GetMeanMode
+    NewLayout
 };

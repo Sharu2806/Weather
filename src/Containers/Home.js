@@ -1,61 +1,70 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { Header, WeatherReport, GetMeanMode } from '../Components/index';
+import { Header, NewLayout } from '../Components/index';
 
 class Home extends Component {
     constructor(props) {
         super(props);
         this.state = {
             cityName: '',
+            name: '',
             forcastDetails: []
         }
     }
 
-    fetchWeatherData = () => {
-        //const url = `https://community-open-weather-map.p.rapidapi.com/forecast/daily?q=${this.state.cityName}&lat=35&lon=139&cnt=5&units=metric%20or%20imperial`
-        const url = 'http://localhost:3000';
-        axios.get(url, 
-            /* {
-            "method": "GET",
-            "headers": {
-                "x-rapidapi-host": "community-open-weather-map.p.rapidapi.com",
-                "x-rapidapi-key": "d96c2b1439mshc4ab675fad44763p1f7ba4jsn5375fc3fbfdc"
-        } }*/).then((response) => {
-            console.log(response);
-            this.setState(() => {
-                return {
-                    cityName: response.data.city.name,
-                    forcastDetails: response.data.list
-                }
-            })
-        }).catch((error) => {
-            console.log(error);
+    setFetchedData = (res) => {
+        const weatherData = {};
+        res.list.filter((data, i) => {
+            const key = data.dt_txt.substring(0,10);
+            let obj = {};
+            obj = {
+                "min": data.main.temp_min,
+                "max": data.main.temp_max,
+                "humidity": data.main.humidity,
+                "icon": data.weather[0].icon,
+                "time": data.dt_txt.substring(11,19),
+                "date": data.dt
+            }
+            if(weatherData.hasOwnProperty(key)) {
+                weatherData[key].push(obj);
+            } else {
+                weatherData[key] = [];
+                weatherData[key].push(obj);
+            }
         })
+        this.setState(() => {
+            return {
+                cityName: res.city.name,
+                forcastDetails: weatherData
+            }
+        })
+    }
+
+    fetchWeatherData = () => {
+        if(this.state.name !== '') {
+            const url = `http://api.openweathermap.org/data/2.5/forecast?q=${this.state.name}&appid=fbd00013df4d8827181824be982f254e&units=metric`;
+            axios.get(url)
+            .then((response) => {
+                this.setFetchedData(response.data);
+            }).catch((error) => {
+                console.log(error);
+            })
+        }
     }
 
     onChangeInput = (e) => {
         const { target: { value } } = e;
-        const { state } = this;
-        state["cityName"] = value;
+        this.setState(() => {
+            return { name: value }
+        })
     }
 
-    onBlur = (e) => {
-        const { target: { value } } = e;
-        this.setState((state) => {
-            state["cityName"] = value;
-            return { ...state };
-        });
-    }
     render() {
+        const checkLength = Object.values(this.state.forcastDetails).length;
         return(
             <div>
-                <Header cityName={this.state.cityName} />
-                <div className="section">
-                    <input type="text" id="searchCity" value={this.state.cityName} onChange={this.onChangeInput} onBlur={this.onBlur} />
-                    <button onClick={this.fetchWeatherData} disable={(this.state.cityName !== '').toString()}>Search</button>
-                </div>
-                {this.state.forcastDetails.length > 0 ? <WeatherReport forcastData={this.state.forcastDetails} /> : null}
-                {this.state.forcastDetails.length > 0 ? <GetMeanMode forcastData={this.state.forcastDetails} /> : null}
+                <Header cityName={this.state.name} onChange={this.onChangeInput} fetchWeather={this.fetchWeatherData} />
+                {checkLength > 0 ? <NewLayout forcastData={this.state.forcastDetails} cityName={this.state.cityName} /> : null}
             </div>
         );
     }

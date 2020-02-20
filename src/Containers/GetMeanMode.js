@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 
-export default class GetMeanMode extends Component {
+class GetMeanMode extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -12,11 +13,18 @@ export default class GetMeanMode extends Component {
         }
     }
 
-    static getDerivedStateFromProps(props, state) {
-        if (JSON.stringify(state.forcastData) !== JSON.stringify(props.forcastData)){
-            return { filteredRecord: props.forcastData.map((data) => data.temp) }
+    componentDidMount() {
+        const { forcastData } = this.state;
+        const { forcastData: fetchedData } = this.props.location ? this.props.location.state : {};
+        if (JSON.stringify(forcastData) !== JSON.stringify(fetchedData)){
+            const filteredRecord = Object.values(fetchedData).map((item) => {
+                    return item.map((data) => data);
+                })
+            
+            this.setState({
+                filteredRecord
+            });
         }
-        return null;
     }
 
     setValues = (value) => {
@@ -25,8 +33,12 @@ export default class GetMeanMode extends Component {
         });
     }
 
+    getFilteredData = (record, param) => {
+        return record.map((data) => data[0][`${param}`]);
+    }
+
     getMin = () => {
-        const filteredValues = this.state.filteredRecord.map((data) => data.min);
+        const filteredValues = this.getFilteredData(this.state.filteredRecord, "min");
         const minValue = filteredValues.reduce(((accumlator, currentData) => {
             if (accumlator <= currentData) {
                 return accumlator;
@@ -40,7 +52,7 @@ export default class GetMeanMode extends Component {
     }
 
     getMax = () => {
-        const filteredValues = this.state.filteredRecord.map((data) => data.max);
+        const filteredValues = this.getFilteredData(this.state.filteredRecord, "max");
         const maxValue = filteredValues.reduce(((accumlator, currentData) => {
             if (accumlator >= currentData) {
                 return accumlator;
@@ -54,13 +66,12 @@ export default class GetMeanMode extends Component {
     }
 
     getMean = () => {
-        const filteredMinValues = this.state.filteredRecord.map((data) => data.min);
-        const filteredMaxValues = this.state.filteredRecord.map((data) => data.max);
+        const filteredMinValues = this.getFilteredData(this.state.filteredRecord, "min");
+        const filteredMaxValues = this.getFilteredData(this.state.filteredRecord, "max");
         const combineMinMax = [...filteredMinValues, ...filteredMaxValues];
         const totalMinTemp = combineMinMax.reduce(((accumlator, currentData) => {
             return accumlator += currentData;
         }));
-        console.log();
         const meanValue  = totalMinTemp/(combineMinMax.length);
         this.setState({
             meanValue
@@ -68,8 +79,8 @@ export default class GetMeanMode extends Component {
     }
 
     getMode = () => {
-        const filteredMinValues = this.state.filteredRecord.map((data) => data.min);
-        const filteredMaxValues = this.state.filteredRecord.map((data) => data.max);
+        const filteredMinValues = this.getFilteredData(this.state.filteredRecord, "min");
+        const filteredMaxValues = this.getFilteredData(this.state.filteredRecord, "max");
         const combineMinMax = [...filteredMinValues, ...filteredMaxValues];
         let commonElem = [];
         combineMinMax.map((data) => {
@@ -114,3 +125,5 @@ export default class GetMeanMode extends Component {
         )
     }
 }
+
+export default withRouter(GetMeanMode);
