@@ -4,7 +4,11 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
     mode: 'development',
-    entry: './src/index.js',
+    entry: [
+        'babel-polyfill',
+        'react-app-polyfill/ie11',
+        './src/index.js'
+    ],
     devServer: {
         contentBase: path.join(__dirname, '/'),
         compress: true,

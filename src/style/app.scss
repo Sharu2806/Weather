@@ -10,8 +10,14 @@ $text-font: 14px;
     font-size: 20px;
 }
 
-%flex-board {
+%flex-align-all {
     display: flex;
+    -ms-flex: 1;
+    -webkit-flex: 1;
+}
+
+%flex-board {
+    @extend %flex-align-all;
     align-items: stretch;
     flex-wrap: nowrap;
     justify-items: center;
@@ -23,9 +29,9 @@ $text-font: 14px;
 }
 
 header {
+    @extend %flex-align-all;
     background-color: #f1f029;
     height: 60px;
-    display: flex;
     justify-content: center;
     align-items: center;
     border-radius: 20px;
