@@ -5,8 +5,8 @@ import { Link } from 'react-router-dom';
 export default class NewLayout extends Component {
     getWeatherForDay = () => {
         let list = [];
-        return Object.values(this.props.forcastData).map((item, i) => {
-            const day = moment(new Date(item[i].date * 1000)).format('dddd');
+        return Object.values(this.props.forcastData).map((item) => {
+            const day = moment(new Date(item[0].date * 1000)).format('dddd');
             const weatherList = item.map((data, i) => {
                 return (
                         <div className="item" key={`${i}_record`}>
